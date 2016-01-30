@@ -24,6 +24,7 @@
                                         <ul class="dropdown-menu">
                                             <li {% if order is defined and order == 'name' and route is defined and route == 'car_list' %}class="active"{% endif %}><a href="{{ path('car_list') ~ '?order=name' }}">Sortuj według nazwy</a></li>
                                             <li {% if order is defined and order == 'name' and route is defined and route == 'car_list' %}class="active"{% endif %}><a href="{{ path('car_list') ~ '?order=price' }}">Sortuj według ceny</a></li>
+                                            <li {% if order is defined and order == 'name' and route is defined and route == 'car_list' %}class="active"{% endif %}><a href="{{ path('car_list') ~ '?order=date' }}">Sortuj według nowości</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown {% if route is defined and route == 'car_list_cat' %}active{% endif %}">
