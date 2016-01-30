@@ -21,11 +21,20 @@ class CarsController extends Controller
             case 'name':
                 $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['name' => 'ASC']);
                 break;
+            case 'revname':
+                $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['name' => 'DESC']);
+                break;
             case 'price':
                 $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['price' => 'ASC']);
                 break;
+            case 'revprice':
+                $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['price' => 'DESC']);
+                break;
             case 'date':
                 $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['id' => 'DESC']);
+                break;
+            case 'revdate':
+                $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['id' => 'ASC']);
                 break;
             default:
                 $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findAll();
