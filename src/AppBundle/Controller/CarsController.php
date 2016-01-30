@@ -165,7 +165,7 @@ class CarsController extends Controller
                         'date' => $order->getDate()->format('d.m.Y'),
                         'expDate' => $order->getExpDate()->format('d.m.Y'),
                         'price' => $car->getPrice()
-                    ]));
+                    ]), 'text/html');
                 $this->get('mailer')->send($mail);
             }
 
