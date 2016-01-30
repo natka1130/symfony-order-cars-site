@@ -26,7 +26,7 @@
                 {% endif %}
                 <div class="btn btn-default">{{ car.price }} zł/dzień</div>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <div class="btn btn-primary {% if not available %}disabled{% endif %}" data-toggle="modal" data-target="#myModal">Wypożycz</div>
+                    <div class="btn btn-primary {% if not available %}disabled{% endif %}" {% if available %}data-toggle="modal" data-target="#myModal"{% endif %}>Wypożycz</div>
                 {% else %}
                     <a href="{{ path('login') }}" class="btn btn-primary">Zaloguj się</a>
                 {% endif %}
@@ -56,10 +56,11 @@
         </div>
     </div>
 
-    {{ form_start(form) }}
+    {% if available %}
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
+                {{ form_start(form) }}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Potwierdź zamówienie</h4>
@@ -92,9 +93,10 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
                     {{ form_widget(form.add) }}
                 </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
-    {{ form_end(form) }}
+    {% endif %}
 
 {% endblock %}

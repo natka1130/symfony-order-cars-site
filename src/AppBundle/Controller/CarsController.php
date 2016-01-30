@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Orders;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +28,13 @@ class CarsController extends Controller
             else $available[$i] = false;
         }
 
-        return $this->render("car_list.html.twig", ['title' => 'Lista samochodów', 'cars' => $cars, 'categories' => $categories, 'route' => 'car_list', 'available' => $available]);
+        return $this->render("car_list.html.twig", [
+            'title' => 'Lista samochodów',
+            'cars' => $cars,
+            'categories' => $categories,
+            'route' => 'car_list',
+            'available' => $available
+        ]);
     }
 
     /**
@@ -47,7 +54,14 @@ class CarsController extends Controller
             else $available[$i] = false;
         }
 
-        return $this->render("car_list.html.twig", ['title' => 'Lista samochodów - kategoria '.$category->getName(), 'cars' => $cars, 'categories' => $categories, 'route' => 'car_list_cat', 'category' => $id, 'available' => $available]);
+        return $this->render("car_list.html.twig", [
+            'title' => 'Lista samochodów - kategoria '.$category->getName(),
+            'cars' => $cars,
+            'categories' => $categories,
+            'route' => 'car_list_cat',
+            'category' => $id,
+            'available' => $available
+        ]);
     }
 
     /**
@@ -68,10 +82,42 @@ class CarsController extends Controller
         $order = new Orders();
         $order->setCarId($car->getId());
         $order->setDate(new \DateTime('now'));
+        $nowDate = new \DateTime();
+        $format = 'Y-m-d';
         if ( $this->isGranted('IS_AUTHENTICATED_FULLY') ) $order->setUserId($this->getUser()->getId());
         $form = $this->createFormBuilder($order)
-            ->add('expDate', \Symfony\Component\Form\Extension\Core\Type\DateType::class, ['label' => 'Do kiedy', 'widget' => 'single_text', 'attr' => ['class' => 'form-control']])
-            ->add('add', SubmitType::class, ['label' => 'Potwierdź', 'attr' => ['class' => 'btn btn-primary']])
+            ->add('expDate', ChoiceType::class, [
+                'label' => 'Do kiedy',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'choices' => [
+                    'Dni' => [
+                        '1 dzień' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '2 dni' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '3 dni' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '4 dni' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '5 dni' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '6 dni' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format))
+                    ],
+                    'Tygodnie' => [
+                        '1 tydzień' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1D'))->format($format)),
+                        '2 tygodnie' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1W'))->format($format)),
+                        '3 tygodnie' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1W'))->format($format))
+                    ],
+                    'Miesiące' => [
+                        '1 miesiąc' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1W'))->format($format)),
+                        '2 miesiące' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1M'))->format($format)),
+                        '3 miesiące' => \DateTime::createFromFormat($format, $nowDate->add(new \DateInterval('P1M'))->format($format))
+                    ]
+                ]
+            ])
+            ->add('add', SubmitType::class, [
+                'label' => 'Potwierdź',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -84,6 +130,17 @@ class CarsController extends Controller
             return $this->redirectToRoute('orderSuccess');
         }
 
-        return $this->render("car_desc.html.twig", ['title' => $car->getName()." - szczegóły", 'rate_title' => "Opinie", 'car' => $car, 'category' => $category, 'categories' => $categories, 'available' => $available, 'parameters' => $parameters, 'form' => $form->createView(), 'rates' => $orders, 'users' => $users]);
+        return $this->render("car_desc.html.twig", [
+            'title' => $car->getName()." - szczegóły",
+            'rate_title' => "Opinie",
+            'car' => $car,
+            'category' => $category,
+            'categories' => $categories,
+            'available' => $available,
+            'parameters' => $parameters,
+            'form' => $form->createView(),
+            'rates' => $orders,
+            'users' => $users
+        ]);
     }
 }
