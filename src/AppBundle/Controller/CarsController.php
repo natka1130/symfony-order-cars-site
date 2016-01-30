@@ -160,10 +160,10 @@ class CarsController extends Controller
                     ->setFrom('symfony3@example.com')
                     ->setTo($this->getUser()->getMail())
                     ->setBody($this->renderView('order_mail.html.twig', [
-                        'user' => $this->getUser()->getName(),
+                        'user' => $this->getUser()->getUsername(),
                         'car' => $car->getName(),
-                        'date' => $order->getDate(),
-                        'expDate' => $order->getExpDate(),
+                        'date' => $order->getDate()->format('d.m.Y'),
+                        'expDate' => $order->getExpDate()->format('d.m.Y'),
                         'price' => $car->getPrice()
                     ]));
                 $this->get('mailer')->send($mail);
