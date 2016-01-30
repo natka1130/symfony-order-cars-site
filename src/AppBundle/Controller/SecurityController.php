@@ -12,6 +12,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Users;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,6 +70,7 @@ class SecurityController extends Controller
 
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class)
+            ->add('mail', EmailType::class, ['invalid_message' => 'Email jest nieprawidłowy'])
             ->add('password', RepeatedType::class, ['type' => PasswordType::class, 'invalid_message' => 'Hasła muszą się zgadzać'])
             ->add('add', SubmitType::class)
             ->getForm();
