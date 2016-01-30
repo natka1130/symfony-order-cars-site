@@ -16,8 +16,15 @@ class CarsController extends Controller
      */
     public function carListAction(Request $request)
     {
+        switch ($request->query->get('order', 'name'))
+        {
+            case 'name':
+                $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findBy([], ['name' => 'ASC']);
+                break;
+            default:
+                $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findAll();
+        }
         $categories = $this->getDoctrine()->getRepository("AppBundle:Categories")->findAll();
-        $cars = $this->getDoctrine()->getRepository("AppBundle:Cars")->findAll();
         $available = [];
         for ( $i = 0; $i < count($cars); $i++ )
         {
