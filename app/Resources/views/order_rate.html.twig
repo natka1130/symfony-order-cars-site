@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% for flash in app.session.flashBag.get('form') %}
+        <div class="alert alert-warning">
+            {{ flash }}
+        </div>
+    {% endfor %}
+
+    {{ form_errors(form) }}
+
+
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    <div class="form-group">
+        {{ form_label(form.rate, 'Ocena:', {'label_attr': {'class': 'control-label col-sm-2'}}) }}
+        <div class="col-sm-10">
+            {{ form_widget(form.rate, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.opinion, 'Opinia:', {'label_attr': {'class': 'control-label col-sm-2'}}) }}
+        <div class="col-sm-10">
+            {{ form_widget(form.opinion, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            {{ form_widget(form.add, {'label': 'Dodaj', 'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

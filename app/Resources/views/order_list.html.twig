@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+
+    <div class="list-group">
+        {% if orders is empty %}
+            <h3 class="text-center">Brak zamówień</h3>
+        {% endif %}
+        {% for order in orders %}
+            <div class="list-group-item">
+                <img class="pull-left" style="max-height: 58px; margin-right: 10px;" src="{{ asset('Resources/cars/' ~ cars[loop.index0].image) }}">
+                <h4 class="list-group-item-heading">
+                    {{ cars[loop.index0].name }} (od {{ order.date }} do {{ order.expDate }})
+                </h4>
+                <div class="list-group-item-text">
+                    <div class="btn-group">
+                        <a href="{{ path('car_desc', {id: cars[loop.index0].id}) }}" class="btn btn-default">Szczegóły samochodu</a>
+                        {% if not order.rate %}<a href="{{ path('orderRate', {id: order.id}) }}" class="btn btn-primary">Oceń</a>{% endif %}
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}

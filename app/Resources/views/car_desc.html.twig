@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    {{ parent() }}
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <img class="img-responsive center-block" src="{{ asset('Resources/cars/') ~ car.image }}">
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <p>
+                {{ car.description }}
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item">Typ: {{ category.name }}</li>
+                <li class="list-group-item">Paliwo: {{ parameters[0] }}</li>
+                <li class="list-group-item">Miejsca: {{ parameters[1] }}</li>
+                <li class="list-group-item">Nawigacja: {{ parameters[2] }}</li>
+            </ul>
+            <div class="btn-group btn-group-lg">
+                {% if available %}
+                    <div class="btn btn-success">Dostępny</div>
+                {% else %}
+                    <div class="btn btn-danger">Niedostępny</div>
+                {% endif %}
+                <div class="btn btn-default">{{ car.price }} zł/dzień</div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="btn btn-primary {% if not available %}disabled{% endif %}" data-toggle="modal" data-target="#myModal">Wypożycz</div>
+                {% else %}
+                    <a href="{{ path('login') }}" class="btn btn-primary">Zaloguj się</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <h3>{{ rate_title }}</h3>
+            <div class="list-group">
+                {% if not rates %}<h4 class="text-center">Brak opinii</h4>{% endif %}
+            {% for rate in rates if rate.rate %}
+                <div class="list-group-item">
+                    <div class="list-group-item-heading">
+                        {% for i in 1..rate.rate %}
+                            <span class="glyphicon glyphicon-star"></span>
+                        {% endfor %}
+                        {% for i in 1..10-rate.rate %}
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        {% endfor %}
+                    </div>
+                    <div class="list-group-item-text">
+                        <strong>{{ users[rate.userId].username }}:</strong> {{ rate.opinion }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Potwierdź zamówienie</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <img class="img-responsive center-block" src="{{ asset('Resources/cars/') ~ car.image }}">
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">Typ: {{ category.name }}</li>
+                                <li class="list-group-item">Paliwo: {{ parameters[0] }}</li>
+                                <li class="list-group-item">Miejsca: {{ parameters[1] }}</li>
+                                <li class="list-group-item">Nawigacja: {{ parameters[2] }}</li>
+                                <li class="list-group-item">Cena/miesiąc: {{ car.price }} zł</li>
+                            </ul>
+                            {{ form_errors(form) }}
+                            {{ form_label(form.expDate) }}
+                            <div class="input-group date">
+                                {{ form_widget(form.expDate) }}
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                    {{ form_widget(form.add) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ title }}{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('Resources/public/css/bootstrap.min.css') }}" type="text/css">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}
+            <div class="container">
+                <header style="margin-top: 30px;">
+                    {% block header %}
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand" href="{{ path('index') }}">Symfony 3</a>
+                                </div>
+                                <ul class="nav navbar-nav">
+                                    <li {% if (route is defined) and (route == 'car_list') %}class="active"{% endif %}><a href="{{ path('car_list') }}">Samochody</a></li>
+                                    <li class="dropdown {% if route is defined and route == 'car_list_cat' %}active{% endif %}">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategorie <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            {% for cat in categories %}
+                                                <li {% if route is defined and route == 'car_list_cat' and category == cat.id %}class="active"{% endif %}><a href="{{ path('car_list_cat', {id: cat.id}) }}">{{ cat.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right">
+                                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li><a href="{{ path('login') }}">Zaloguj</a></li>
+                                        <li><a href="{{ path('register') }}">Zarejestruj</a></li>
+                                    {% else %}
+                                        <li class="dropdown {% if route is defined and route == 'orders' %}active{% endif %}">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.user.username }} <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li {% if route is defined and route == 'orders' %}class="active"{% endif %}><a href="{{ path('orders') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Zamówienia</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="{{ path('logout') }}"><span class="glyphicon glyphicon-off"></span> Wyloguj</a></li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </nav>
+                    {% endblock %}
+                </header>
+                <div class="page-header"><h2>{{ title }}</h2></div>
+                <main>
+                    {% block main %}
+
+                    {% endblock %}
+                </main>
+                <footer>
+                    {% block footer %}
+                    {% endblock %}
+                </footer>
+            </div>
+        {% endblock %}
+        {% block javascripts %}
+            <script src="http://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+            <script src="{{ asset('Resources/public/js/bootstrap.min.js') }}" type="text/javascript"></script>
+        {% endblock %}
+    </body>
+</html>
