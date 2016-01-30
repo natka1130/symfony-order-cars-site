@@ -153,6 +153,22 @@ class CarsController extends Controller
             $em->persist($order);
             $em->flush();
 
+            if ($this->getUser()->getMail() !== null)
+            {
+                $mail = \Swift_Message::newInstance()
+                    ->setSubject('Wiadomość od Symfony 3')
+                    ->setFrom('symfony3@example.com')
+                    ->setTo($this->getUser()->getMail())
+                    ->setBody($this->renderView('order_mail.html.twig', [
+                        'user' => $this->getUser()->getName(),
+                        'car' => $car->getName(),
+                        'date' => $order->getDate(),
+                        'expDate' => $order->getExpDate(),
+                        'price' => $car->getPrice()
+                    ]));
+                $this->get('mailer')->send($mail);
+            }
+
             return $this->redirectToRoute('orderSuccess');
         }
 
