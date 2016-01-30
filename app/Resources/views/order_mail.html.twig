@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email z Symfony 3</title>
+</head>
+<body>
+    <h1>Witaj {{ user }}!</h1>
+
+    <p>Chcieliśmy poinformawać się o twoim zamówieniu na wypożyczenie samochodu {{ car }}.</p>
+    <p>Szczegóły zamówienia:
+    <ul>
+        <li>Data wypożyczenia: {{ date }}</li>
+        <li>Dostępny do: {{ expDate }}</li>
+        <li>Cena za miesiąc: {{ price }} zł</li>
+    </ul>
+    </p>
+    <p>Dziękujemy za zaufanie, pojazd mogą Państwo odebrać w siedzibie naszej firmy.</p>
+</body>
+</html>
