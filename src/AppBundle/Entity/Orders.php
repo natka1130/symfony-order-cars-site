@@ -197,4 +197,3 @@ class Orders
         return $this->id;
     }
 }
-
