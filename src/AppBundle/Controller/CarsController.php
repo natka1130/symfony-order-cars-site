@@ -97,7 +97,11 @@ class CarsController extends Controller
         $category = $this->getDoctrine()->getRepository("AppBundle:Categories")->find($car->getCategoryId());
         $lastOrder = $this->getDoctrine()->getRepository("AppBundle:Orders")->findBy(['carId' => $car->getId()], ['expDate' => 'DESC'], 1);
         $orders = $this->getDoctrine()->getRepository("AppBundle:Orders")->findBy(['carId' => $car]);
-        $users = $this->getDoctrine()->getRepository("AppBundle:Users")->findAll();
+        $users = [];
+        for ($i = 0; $i < count($orders); $i++)
+        {
+            if ( $orders[$i]->getRate() !== null ) $users[$i] = $this->getDoctrine()->getRepository("AppBundle:Users")->find($orders[$i]->getUserId());
+        }
         if ( empty($lastOrder) || $lastOrder[0]->getExpDate() < new \DateTime('now') ) $available = true;
         else $available = false;
 
