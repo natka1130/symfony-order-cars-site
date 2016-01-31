@@ -91,6 +91,38 @@ class CarsController extends Controller
      */
     public function carDescriptionAction(Request $request, $id)
     {
+        if ($this->isGranted('ROLE_MOD'))
+        {
+            switch ($request->query->get('action', 'none'))
+            {
+                case 'accept':
+                    if ($request->query->has('id'))
+                    {
+                        $order = $this->getDoctrine()->getRepository("AppBundle:Orders")->find($request->query->get('id'));
+                        if ($order !== null && $order->getRate() !== null && $order->getOpinion() !== null)
+                        {
+                            $order->setRateAccepted(true);
+                            $this->getDoctrine()->getManager()->flush();
+                        }
+                    }
+                    break;
+
+                case 'remove':
+                    if ($request->query->has('id'))
+                    {
+                        $order = $this->getDoctrine()->getRepository("AppBundle:Orders")->find($request->query->get('id'));
+                        if ($order !== null && $order->getRate() !== null && $order->getOpinion() !== null)
+                        {
+                            $order->setRateAccepted(false);
+                            $order->setOpinion(null);
+                            $order->setRate(null);
+                            $this->getDoctrine()->getManager()->flush();
+                        }
+                    }
+                    break;
+            }
+        }
+
         $categories = $this->getDoctrine()->getRepository("AppBundle:Categories")->findAll();
         $car = $this->getDoctrine()->getRepository("AppBundle:Cars")->find($id);
         $parameters = explode(';', $car->getParameters());

@@ -37,8 +37,8 @@
             <h3>{{ rate_title }}</h3>
             <div class="list-group">
             {% set any_rates=false %}
-            {% for rate in rates %}{% if rate.rate %}
-                <div class="list-group-item">
+            {% for rate in rates %}{% if rate.rate and ( is_granted('ROLE_MOD') or rate.rateAccepted ) %}
+                <div class="list-group-item {% if not rate.rateAccepted %}list-group-item-warning{% endif %}">
                     <div class="list-group-item-heading">
                         {% for i in 1..rate.rate %}
                             <span class="glyphicon glyphicon-star"></span>
@@ -46,6 +46,11 @@
                         {% for i in 1..10-rate.rate %}
                             <span class="glyphicon glyphicon-star-empty"></span>
                         {% endfor %}
+                        {% if is_granted('ROLE_MOD') %}<div class="btn-group pull-right">
+                            <a title="Usuń opinię" class="btn btn-danger" href="{{ path('car_desc', {'id': car.id}) ~ '?action=remove&id=' ~ rate.id }}"><span class="glyphicon glyphicon-remove"></span> Usuń</a>
+                            {% if not rate.rateAccepted %}<a title="Akceptuj opinię" class="btn btn-default btn-success" href="{{ path('car_desc', {'id': car.id}) ~ '?action=accept&id=' ~ rate.id }}"><span class="glyphicon glyphicon-ok"></span> Akceptuj</a>{% endif %}
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="list-group-item-text">
                         <strong>{{ users[loop.index0].username }}:</strong> {{ rate.opinion }}
