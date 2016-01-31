@@ -82,8 +82,22 @@ class CarsController extends Controller
                             $order->setRateAccepted(true);
                             $this->getDoctrine()->getManager()->flush();
                         }
-                }
-                break;
+                    }
+                    break;
+
+                case 'remove':
+                    if ($request->query->has('id'))
+                    {
+                        $order = $this->getDoctrine()->getRepository("AppBundle:Orders")->find($request->query->get('id'));
+                        if ($order !== null && $order->getRate() !== null && $order->getOpinion() !== null)
+                        {
+                            $order->setRateAccepted(false);
+                            $order->setOpinion(null);
+                            $order->setRate(null);
+                            $this->getDoctrine()->getManager()->flush();
+                        }
+                    }
+                    break;
             }
         }
 
