@@ -196,5 +196,33 @@ class Orders
     {
         return $this->id;
     }
-}
+    /**
+     * @var boolean
+     */
+    private $rateAccepted = '0';
 
+
+    /**
+     * Set rateAccepted
+     *
+     * @param boolean $rateAccepted
+     *
+     * @return Orders
+     */
+    public function setRateAccepted($rateAccepted)
+    {
+        $this->rateAccepted = $rateAccepted;
+
+        return $this;
+    }
+
+    /**
+     * Get rateAccepted
+     *
+     * @return boolean
+     */
+    public function getRateAccepted()
+    {
+        return $this->rateAccepted;
+    }
+}

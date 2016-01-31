@@ -25,6 +25,11 @@
         <option name="unsigned"/>
       </options>
     </field>
+    <field name="rateAccepted" type="boolean" column="rate_accepted" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
     <field name="expDate" type="date" column="exp_date" nullable="false"/>
   </entity>
 </doctrine-mapping>

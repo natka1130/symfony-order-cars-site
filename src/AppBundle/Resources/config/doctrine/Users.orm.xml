@@ -3,11 +3,17 @@
   <entity name="AppBundle\Entity\Users" table="users">
     <unique-constraints>
       <unique-constraint name="username" columns="username"/>
+      <unique-constraint name="mail" columns="mail"/>
     </unique-constraints>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
     <field name="username" type="string" column="username" length="20" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="mail" type="string" column="mail" length="255" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

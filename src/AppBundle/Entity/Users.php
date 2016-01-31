@@ -158,5 +158,33 @@ class Users implements UserInterface, \Serializable
     {
         // TODO: Implement eraseCredentials() method.
     }
-}
+    /**
+     * @var string
+     */
+    private $mail;
 
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return Users
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+}

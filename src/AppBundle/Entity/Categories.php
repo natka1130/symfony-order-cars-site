@@ -52,4 +52,3 @@ class Categories
         return $this->id;
     }
 }
-
