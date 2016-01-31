@@ -38,7 +38,7 @@
             <div class="list-group">
             {% set any_rates=false %}
             {% for rate in rates %}{% if rate.rate %}
-                <div class="list-group-item">
+                <div class="list-group-item {% if not rate.rateAccepted %}list-group-item-warning{% endif %}">
                     <div class="list-group-item-heading">
                         {% for i in 1..rate.rate %}
                             <span class="glyphicon glyphicon-star"></span>
