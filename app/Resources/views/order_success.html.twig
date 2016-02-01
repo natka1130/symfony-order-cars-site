@@ -3,7 +3,7 @@
 {% block main %}
     {{ parent() }}
 
-    <div class="alert alert-success text-center">Twoje zamówienie zostało przyjęte</div>
+    <div class="alert alert-success text-center">Twoje zamówienie zostało przyjęte!<br>Płatność tylko gotówką, podczas odbioru samochodu. Wypożyczenie wymaga również kaucji w wysokośći kwoty wypożyczenia. Kaucja jest zwrotna po oddaniu samochodu.</div>
     <div class="btn-group btn-group-justified">
         <a class="btn btn-primary" href="{{ path('index') }}">Strona główna</a>
         <a class="btn btn-default" href="{{ path('car_list') }}">Lista samochodów</a>

@@ -13,6 +13,9 @@ class CarsController extends Controller
 {
     /**
      * @Route("/cars", name="car_list")
+     * renders the page with a list of all the cars,  servicing sorting options
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function carListAction(Request $request)
     {
@@ -59,8 +62,9 @@ class CarsController extends Controller
         ]);
     }
 
-    /**
+     /**
      * @Route("/cars/cat/{id}", name="car_list_cat")
+     * Car display of the appropriate category
      */
     public function carListCatAction(Request $request, $id)
     {
@@ -88,6 +92,7 @@ class CarsController extends Controller
 
     /**
      * @Route("/cars/{id}", name="car_desc")
+     * function is responsible for the car hire and send an email to the user with information about the loan.
      */
     public function carDescriptionAction(Request $request, $id)
     {

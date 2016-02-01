@@ -13,6 +13,7 @@ class OrdersController extends Controller
 {
     /**
      * @Route("/orders", name="orders")
+	 *OrderAction function connects to the database. Check user data for a selected car. It allows you to order and adds them to the database.
      */
     public function ordersAction(Request $request)
     {
@@ -30,6 +31,7 @@ class OrdersController extends Controller
 
     /**
      * @Route("/order-success", name="orderSuccess")
+	 * This confirms the positive to order
      */
     public function orderSuccessAction(Request $request)
     {
@@ -40,6 +42,7 @@ class OrdersController extends Controller
 
     /**
      * @Route("/order-rate/{id}", name="orderRate")
+	 *function is responsible for adding comments about the car
      */
     public function orderDeleteAction(Request $request, $id)
     {

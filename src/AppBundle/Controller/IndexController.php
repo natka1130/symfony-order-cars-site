@@ -10,6 +10,7 @@ class IndexController extends Controller
 {
     /**
      * @Route("/", name="index")
+	 *displays a list of cars on the main application
      */
     public function indexAction(Request $request)
     {

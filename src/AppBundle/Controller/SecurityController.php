@@ -21,8 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
-    /**
+   /**
      * @Route("/login", name="login")
+     * LoginAction function is used to log the user in the application.
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function loginAction(Request $request)
     {
@@ -76,7 +79,7 @@ class SecurityController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-
+//checks whether there is already such a user name, if not, user will be registered ..
         if ($form->isSubmitted() && $form->isValid()) {
             $users = $this->getDoctrine()->getRepository("AppBundle:Users")->findBy(['username' => $form->get('username')->getData()]);
             if ( empty($users) )
